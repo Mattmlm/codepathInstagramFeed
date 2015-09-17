@@ -12,6 +12,7 @@ import AFNetworking
 class PhotosTableViewCell: UITableViewCell {
 
     @IBOutlet weak var instagramImageView: UIImageView?
+//    var imageURL : String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,8 +24,8 @@ class PhotosTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
-    func setImage() {
-        
+    
+    func setInstagramImage(imageURL: String) {
+        self.instagramImageView? .setImageWithURL(NSURL(string: imageURL)!)
     }
 }

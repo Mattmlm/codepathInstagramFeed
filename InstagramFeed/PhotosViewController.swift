@@ -38,11 +38,6 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
-//        NSURLConnection.sendAsynchronousRequest(request: request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-//            var responseDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
-//            self.photos = responseDictionary["data"] as! NSArray
-//            self.tableView.reloadData()
-//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,8 +56,14 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = PhotosTableViewCell()
-        cell
+        let cell = tableView.dequeueReusableCellWithIdentifier("myCell") as! PhotosTableViewCell
+//        cell.backgroundColor = UIColor.redColor()
+        
+        let data = self.photos![indexPath.row] as! NSDictionary;
+        let images = data["images"] as! NSDictionary
+        let standardImage = images["standard_resolution"] as! NSDictionary
+        let url = standardImage["url"]
+        cell.setInstagramImage(url as! String);
         return cell
     }
 
