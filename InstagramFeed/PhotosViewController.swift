@@ -30,8 +30,10 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
             if let d = data {
                 let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(d, options: [])
                 print (responseDictionary)
-                self.photos = responseDictionary["data"] as! NSArray
-                self.tableView!.reloadData()
+                if let photoData = responseDictionary["data"] as? NSArray {
+                    self.photos = photoData;
+                    self.tableView!.reloadData();
+                }
             } else {
                 if let e = error {
                     NSLog("Error: \(e)")
@@ -57,14 +59,15 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("myCell") as! PhotosTableViewCell
-//        cell.backgroundColor = UIColor.redColor()
-        
+
+        // Parse JSON data
         let data = self.photos![indexPath.row] as! NSDictionary;
         let images = data["images"] as! NSDictionary
         let standardImage = images["standard_resolution"] as! NSDictionary
         let url = standardImage["url"]
+        
         cell.setInstagramImage(url as! String);
+        
         return cell
     }
-
 }
